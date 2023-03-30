@@ -3,7 +3,7 @@ const axios = require('axios')
 const fs = require("fs")
 const path = require("path")
 
-
+// using promises
 const readFilepro = file => {
     return new Promise((resolve, reject) => {
         fs.readFile(file, (err, data) => {
@@ -28,25 +28,20 @@ const writeFilepro = (file, data) => {
 
 readFilepro(path.join(__dirname, "/dog.txt"))
     .then((result) => {
-        axios.get(`https://dog.ceo/api/breed/${result}/images/random`)
-            .then((res) => {
-                writeFilepro('dog_breed.txt', res.data.message)
-                    .then((res) => {
-                        console.log(res)
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-                //console.log(res.data)
-            })
-            .catch((err) => {
-                console.log(err.message)
-            })
+        return axios.get(`https://dog.ceo/api/breed/${result}/images/random`)
+    })
+    .then((res) => {
+        return writeFilepro('dog_breed.txt', res.data.message)
+        //console.log(res.data)
+    })
+    .then((res) => {
+        console.log(res)
     })
     .catch((err) => {
         console.log(err)
     })
 
+//using call backs
 
 // file.readFile(`${__dirname}/dog.txt`, (err, data) => {
 //     console.log(`${data}`)
